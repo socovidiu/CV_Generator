@@ -32,3 +32,5 @@ dump/
 
 # Ignore Docker Files (optional)
 docker-compose.override.yml
+
+docs
