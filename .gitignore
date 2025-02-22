@@ -1,0 +1,34 @@
+# Ignore Visual Studio and Rider files
+.vscode/
+.idea/
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore build and binary files
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Ignore .NET dependencies
+project.lock.json
+*.nuget/
+*.nupkg
+packages/
+artifacts/
+
+# Ignore Environment Variables and Secrets
+.env
+appsettings.json
+appsettings.Development.json
+
+# Ignore MongoDB Data (if using local storage)
+data/db/
+dump/
+
+# Ignore Docker Files (optional)
+docker-compose.override.yml
