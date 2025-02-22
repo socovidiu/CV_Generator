@@ -2,49 +2,69 @@ using CVGeneratorAPI.Models;
 using CVGeneratorAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/cv")]
-[ApiController]
-public class CVController : ControllerBase
+namespace CVGeneratorAPI.Controllers
 {
-    private readonly CVService _cvService;
-
-    public CVController(CVService cvService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CVController : ControllerBase
     {
-        _cvService = cvService;
-    }
+        private readonly CVService _cvService;
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll() => Ok(await _cvService.GetAllAsync());
+        public CVController(CVService cvService)
+        {
+            _cvService = cvService;
+        }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
-    {
-        var cv = await _cvService.GetByIdAsync(id);
-        return cv == null ? NotFound() : Ok(cv);
-    }
+        // GET: api/cv (Get all CVs)
+        [HttpGet]
+        public async Task<ActionResult<List<CVModel>>> GetAll()
+        {
+            var cvs = await _cvService.GetAllCvsAsync();
+            return Ok(cvs);
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(CVModel cv)
-    {
-        await _cvService.CreateAsync(cv);
-        return CreatedAtAction(nameof(GetById), new { id = cv.Id }, cv);
-    }
+        // GET: api/cv/{id} (Get a single CV by ID)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CVModel>> GetById(string id)
+        {
+            var cv = await _cvService.GetCvByIdAsync(id);
+            if (cv == null)
+                return NotFound("CV not found.");
+            
+            return Ok(cv);
+        }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, CVModel cv)
-    {
-        var existingCV = await _cvService.GetByIdAsync(id);
-        if (existingCV == null) return NotFound();
-        await _cvService.UpdateAsync(id, cv);
-        return NoContent();
-    }
+        // POST: api/cv (Create a new CV)
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] CVModel newCv)
+        {
+            await _cvService.CreateCvAsync(newCv);
+            return CreatedAtAction(nameof(GetById), new { id = newCv.Id }, newCv);
+        }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
-    {
-        var cv = await _cvService.GetByIdAsync(id);
-        if (cv == null) return NotFound();
-        await _cvService.DeleteAsync(id);
-        return NoContent();
+        // PUT: api/cv/{id} (Update an existing CV)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(string id, [FromBody] CVModel updatedCv)
+        {
+            var existingCv = await _cvService.GetCvByIdAsync(id);
+            if (existingCv == null)
+                return NotFound("CV not found.");
+
+            updatedCv.Id = id; // Ensure the ID remains the same
+            await _cvService.UpdateCvAsync(id, updatedCv);
+            return NoContent();
+        }
+
+        // DELETE: api/cv/{id} (Delete a CV)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var cv = await _cvService.GetCvByIdAsync(id);
+            if (cv == null)
+                return NotFound("CV not found.");
+
+            await _cvService.DeleteCvAsync(id);
+            return NoContent();
+        }
     }
 }
