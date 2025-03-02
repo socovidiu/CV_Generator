@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
                             onClick={() => setDropdownOpen(!dropdownOpen)}
                         >
                             <button className="flex items-center text-gray-800 hover:text-blue-500 px-4 py-2">
-                                CV
+                                SELCET CV
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="ml-1 h-5 w-5"
@@ -45,20 +45,20 @@ const Navbar: React.FC = () => {
                             {/* Dropdown Content */}
                             {dropdownOpen && (
                                 <div className="dropdown-content">
-                                    <a href="/exemple-cv">Exemple CV</a>
-                                    <a href="/modele-cv">Modele CV</a>
+                                    <a href="/exemple-cv">CV Exemples</a>
+                                    <a href="/modele-cv">CV Models</a>
                                 </div>
                             )}
                         </div>
 
                         {/* Other Links */}
                         <a className="text-gray-800 hover:text-blue-500 px-4 py-2" href="/app/auth/sign-in">
-                            Contul meu
+                            My Account
                         </a>
 
                         <a href="/app/create-resume">
-                            <button className="bg-blue-500  text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
-                                Creează-mi CV-ul
+                            <button className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition">
+                                Create CV
                             </button>
                         </a>
                     </div>

@@ -1,107 +1,152 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getAllCvs, createCv, updateCv, deleteCv } from "../api/cvService";
-import { CV } from "../types/CVtype";
+import { ContactData } from "../types/CVtype";
+import ContactInfo from "../components/ContactInfo"; 
+
+const templates = {
+    default: "bg-white text-black p-6 rounded-lg shadow-lg",
+    modern: "bg-gray-200 text-black p-6 rounded-lg shadow-lg border-l-4 border-blue-500",
+    dark: "bg-gray-900 text-white p-6 rounded-lg shadow-lg"
+};
 
 const CvManager: React.FC = () => {
-    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<CV>();
-    const [cvs, setCvs] = useState<CV[]>([]);
+    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ContactData>();
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [selectedTemplate, setSelectedTemplate] = useState<keyof typeof templates>("default");
 
-    useEffect(() => {
-        fetchCvs();
-    }, []);
+    // Watch form values for live preview
+    const formValues = watch();
 
-    const fetchCvs = async () => {
-        const data = await getAllCvs();
-        setCvs(data);
-    };
-
-    const onSubmit = async (cvData: CV) => {
-        if (editingId) {
-            await updateCv(editingId, cvData);
-            setEditingId(null);
-        } else {
-            await createCv(cvData);
-        }
-        fetchCvs();
+    const onSubmit = async (cvData: ContactData) => {
+        console.log("CV Submitted:", cvData);
         reset();
     };
 
-    const handleEdit = (cv: CV) => {
-        setEditingId(cv.id || null);
-        Object.keys(cv).forEach((key) => {
-            setValue(key as keyof CV, cv[key as keyof CV]);
-        });
-    };
-
-    const handleDelete = async (id: string) => {
-        await deleteCv(id);
-        fetchCvs();
-    };
-
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 flex flex-col justify-center items-center text-white">
-            <div className="max-w-3xl w-full bg-white shadow-md rounded-lg p-6">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">CV Manager</h2>
+        <div className="min-h-screen flex">
+            {/* Left Section - Form Inputs */}
+            <div className="w-1/2 p-8 bg-gray-100">
+                <h2 className="text-2xl font-bold mb-6">CV Builder</h2>
+                
+                 {/* Photo Upload Section */}
+                <div className="flex flex-col items-center mt-6 space-x-6">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-4xl">👤</div>
+                    <button className="px-6 py-2 text-sm font-semibold tracking-wide">PHOTO UPLOAD</button>
+                </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   
+                    {/* Form Section */}
+                    <div className="grid grid-cols-2 gap-6 mt-6">
                         <div>
+                            <label className="text-xs font-bold uppercase">First Name</label>
                             <input
-                                {...register("name", { required: "Name is required" })}
-                                placeholder="Name"
+                                {...register("firstName", { required: "Name is required" })}
+                                placeholder="Firat Name"
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                         </div>
                         <div>
+                            <label className="text-xs font-bold uppercase">Last Name</label>
                             <input
-                                {...register("email", { required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })}
+                                {...register("lastName", { required: "Name is required" })}
+                                placeholder="Last Name"
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        {/* Adress */}
+                        <div>
+                            <label className="text-xs font-bold uppercase">City</label>
+                            <input
+                                {...register("city", { required: "City is required" })}
+                                placeholder="City"
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold uppercase">County</label>
+                            <input
+                                {...register("county", { required: "County is required" })}
+                                placeholder="County"
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold uppercase">Postcode</label>
+                            <input
+                                {...register("postcode", { required: "Postcode is required" })}
+                                placeholder="Postcode"
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        {/* Contacts */}
+                        <div>
+                            <label className="text-xs font-bold uppercase">Email</label>
+                            <input
+                                {...register("email", { required: "Email is required" })}
                                 placeholder="Email"
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                         </div>
-                    </div>
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                        <div>
+                            <label className="text-xs font-bold uppercase">Phone</label>
+                            <input
+                                {...register("phone")}
+                                placeholder="Phone"
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
 
-                    <input
-                        {...register("phone", { required: "Phone is required" })}
-                        placeholder="Phone"
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
 
-                    <input {...register("education")} placeholder="Education" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <input {...register("experience")} placeholder="Experience" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <input {...register("skills")} placeholder="Skills" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
-                    <div className="flex justify-center gap-4">
-                        <button type="submit" className="bg-blue-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
-                            {editingId ? "Update CV" : "Create CV"}
-                        </button>
-                        {editingId && (
-                            <button type="button" className="bg-gray-500 text-white px-5 py-2 rounded-lg shadow-md hover:bg-gray-600 transition" onClick={() => { setEditingId(null); reset(); }}>
-                                Cancel
-                            </button>
-                        )}
+                        {/* <input {...register("education")} placeholder="Education" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input {...register("experience")} placeholder="Experience" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <input {...register("skills")} placeholder="Skills" className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" /> */}
+                        {/* Buttons Section */}
+                       
                     </div>
                 </form>
+                <div className="flex justify-between mt-8">
+                    <button className="px-8 py-3 border border-black text-black font-bold text-lg">BACK</button>
+                    <button type="submit" 
+                        style={{backgroundColor: 'coral'}}
+                        className="text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
+                        {/* {editingId ? "Continue" : "Create CV"} */}
+                        CONTINUE
+                    </button>
+                </div>
+
+                {/* Template Selector */}
+                <div className="mt-6">
+                    <h3 className="text-lg font-bold mb-2">Choose Template:</h3>
+                    <select className="p-2 border rounded-lg" 
+                        onChange={(e) => setSelectedTemplate(e.target.value as keyof typeof templates)}
+                    >
+                        <option value="default">Default</option>
+                        <option value="modern">Modern</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
             </div>
 
-            <ul className="mt-8 w-full max-w-3xl space-y-3">
-                {cvs.map((cv) => (
-                    <li key={cv.id} className="p-4 bg-white shadow-md flex justify-between items-center rounded-lg">
-                        <div>
-                            <p className="font-bold text-lg">{cv.name}</p>
-                            <p className="text-gray-600">{cv.email}</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <button onClick={() => handleEdit(cv)} className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition">Edit</button>
-                            <button onClick={() => handleDelete(cv.id!)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition">Delete</button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {/* Right Section - CV Preview */}
+            <div className="w-1/2 p-8 bg-gray-500 text-white flex flex-col items-center">
+                <h2 className="text-xl font-bold mb-4">Live Preview</h2>
+                <div className={`w-96 ${templates[selectedTemplate]}`}>
+                    <h3 className="text-2xl font-bold">{(formValues.firstName + formValues.lastName)|| "Your Name"}</h3>
+                    <p className="text-gray-600">
+                        {(formValues.city + ", " + formValues.county+ ", " + formValues.postcode) || "Adress"}
+                    </p>
+                    <p className="text-gray-600">{formValues.email || "your.email@example.com"}</p>
+                    <p className="text-gray-600">{formValues.phone || "Your Phone Number"}</p>
+                    {/* <h4 className="font-semibold mt-4">Education</h4>
+                    <p>{formValues.education || "Your education details"}</p>
+                    <h4 className="font-semibold mt-4">Experience</h4>
+                    <p>{formValues.experience || "Your work experience"}</p>
+                    <h4 className="font-semibold mt-4">Skills</h4>
+                    <p>{formValues.skills || "Your skills"}</p> */}
+                </div>
+            </div>
         </div>
     );
 };

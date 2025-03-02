@@ -1,8 +1,10 @@
 module.exports = {
-    content: ['./src/**/*.{js,jsx,ts,tsx}'], // Adjust to your file paths
-    theme: {
-      extend: {},
-    },
-    plugins: [],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",  // Ensure Tailwind scans your components
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
 };
-  
