@@ -7,7 +7,7 @@ import "./App.css";
 
 const App: React.FC = () => {
     return (
-        <div className="flex min-h-dvh flex-col antialiased min-h-screen ">
+        <div className="flex min-w-full flex-col antialiased min-h-screen ">
             {/* Navbar */}
             <Navbar />
 
