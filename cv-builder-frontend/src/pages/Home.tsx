@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
             {/* Decorative Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute -top-10 left-1/4 w-32 h-32 bg-white opacity-10 rounded-full animate-pulse"></div>
+                <div className="absolute top-10 left-1/4 w-32 h-32 bg-white opacity-10 rounded-full animate-pulse"></div>
                 <div className="absolute bottom-10 right-1/3 w-20 h-20 bg-white opacity-15 rounded-full animate-bounce"></div>
             </div>
         </div>
