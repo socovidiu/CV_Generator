@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ContactData } from "../types/CVtype";
+import { CVData } from "../types/CVtype";
 import ContactInfo from "../components/ContactInfo"; 
+import Summary from "../components/Summary"; 
+
 import ResumePreview from "../components/ResumePreview"; 
+
 
 type TemplateTypes = "default" | "modern" | "dark";
 
@@ -12,11 +15,16 @@ const templates: Record<TemplateTypes, string> = {
     dark: "bg-gray-900 text-white p-6 rounded-lg shadow-lg"
 };
 
+const steps = ["ContactInfo", "Summary"];
+
 const CvManager: React.FC = () => {
-    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<ContactData>();
+    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<CVData>();
+    
     const [editingId, setEditingId] = useState<string | null>(null);
     const [selectedTemplate, setSelectedTemplate] = useState<TemplateTypes>("default");
     const [photo, setPhoto] = useState<string | null>(null);
+    // Step state to track which section is active
+    const [currentStep, setCurrentStep] = useState(0);
 
 
     const borderStyle: "square" | "circle" | "rounded" = "rounded";
@@ -57,7 +65,7 @@ const CvManager: React.FC = () => {
     // Watch form values for live preview
     const formValues = watch();
 
-    const onSubmit = async (cvData: ContactData) => {
+    const onSubmit = async (cvData: CVData) => {
         console.log("CV Submitted:", cvData);
         reset();
     };
@@ -66,27 +74,53 @@ const CvManager: React.FC = () => {
         <div className="min-h-full flex">
             {/* Left Section - Contact Form */}
             <div className="w-2/5 p-8 bg-gray-100 flex flex-col ">
-                <ContactInfo 
-                    register={register}
-                    errors={errors}
-                    handleSubmit={handleSubmit}
-                    onSubmit={onSubmit}
-                    photo={photo}
-                    setPhoto={setPhoto}
-                />
+                <div className="text-center mb-4 ">
+                    Step {currentStep + 1} of {steps.length}
+                </div>
+                {/* Contact data step */}
+                {currentStep === 0 && (
+                    <ContactInfo
+                        register={register}
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        photo={photo}
+                        setPhoto={setPhoto}
+                    />
+                )}
+                {/* Summary step */}
+                {currentStep === 1 && (
+                    <Summary
+                        register={register}
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                    />
+                )}
 
-                {/* Buttons Section */}
+                {/* Navigation and Submit Section */}
                 <div className="flex justify-between mt-4">
-                    <button className="px-8 py-3 border border-black text-black font-bold text-lg">BACK</button>
+                    <button 
+                        type="button"
+                        onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                        className="px-8 py-3 border border-black text-black font-bold text-lg"
+                    >
+                        BACK
+                    </button>
                     
                     <button 
-                        type="submit" 
+                        type="button"
+                        onClick={() => {
+                            handleSubmit((data) => {
+                                console.log("Current Step Data Validated:", data);
+                                setCurrentStep(Math.min(steps.length - 1, currentStep + 1)); // Move forward only if valid
+                            })();
+                        }}
                         className="px-6 py-2 rounded-md shadow-md transition text-white"
                         style={{
-                            backgroundColor: Object.keys(errors).length > 0 ? "#d1d5db" : "#f97316",  // Gray if errors exist, Orange otherwise
-                            cursor: Object.keys(errors).length > 0 ? "not-allowed" : "pointer"
+                            backgroundColor: "#f97316",
+                            cursor: "pointer"
                         }}
-                        disabled={Object.keys(errors).length > 0}
                     >
                         CONTINUE
                     </button>

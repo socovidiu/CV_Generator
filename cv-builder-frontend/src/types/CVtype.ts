@@ -2,7 +2,19 @@ export interface LinkItem {
     type: "LinkedIn" | "GitHub" | "Website";
     url: string;
 }
-export interface ContactData {
+// export interface ContactData {
+//     firstName: string;
+//     lastName: string;
+//     city: string;
+//     county: string;
+//     postcode: string;
+//     phone: string;
+//     email: string;
+//     photo: string;
+//     links: LinkItem[];
+// }
+
+export interface CVData {
     firstName: string;
     lastName: string;
     city: string;
@@ -10,42 +22,31 @@ export interface ContactData {
     postcode: string;
     phone: string;
     email: string;
-    photo: string;
-    links: LinkItem[];
-}
+    photo: string | null;
 
-export interface CV {
-    id?: string;  // Optional for new CVs
-    contact: ContactData;
-    education: string;
-    experience: string;
-    skills: string;
-}
+    summary: string;
+    skills: string[];
 
-export interface ResumeValues {
-    firstName: string;
-    lastName: string;
-    jobTitle?: string;
-    city?: string;
-    country?: string;
-    phone?: string;
-    email?: string;
-    photo?: File | string | null;
+    workExperiences: {
+        position: string;
+        company: string;
+        startDate: string;
+        endDate?: string;
+        description: string;
+    }[];
+
+    educations: {
+        degree: string;
+        school: string;
+        startDate: string;
+        endDate?: string;
+    }[];
+
+    links: {
+        type: "LinkedIn" | "GitHub" | "Website";
+        url: string;
+    }[];
+
     colorHex?: string;
     borderStyle?: "square" | "circle" | "rounded";
-    summary?: string;
-    workExperiences?: {
-        position?: string;
-        company?: string;
-        startDate?: string | Date;
-        endDate?: string | Date;
-        description?: string;
-    }[];
-    educations?: {
-        degree?: string;
-        school?: string;
-        startDate?: string | Date;
-        endDate?: string | Date;
-    }[];
-    skills?: string[];
 }

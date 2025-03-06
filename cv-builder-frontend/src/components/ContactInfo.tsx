@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { UseFormRegister, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
-import { ContactData, LinkItem } from "../types/CVtype";
+import { CVData, LinkItem} from "../types/CVtype";
 
 interface ContactInfoProps {
-    register: UseFormRegister<ContactData>;
-    errors: FieldErrors<ContactData>;
-    handleSubmit: UseFormHandleSubmit<ContactData>;
-    onSubmit: (cvData: ContactData) => void;
+    register: UseFormRegister<CVData>;
+    errors: FieldErrors<CVData>;
+    handleSubmit: UseFormHandleSubmit<CVData>;
+    onSubmit: (cvData: CVData) => void;
     photo: string | null;
     setPhoto: (photo: string | null) => void; 
 }
@@ -25,11 +25,11 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
         updatedLinks[index][field] = value as any;
         setLinks(updatedLinks);
     };
-    
+    // Add new link
     const addNewLink = () => {
         setLinks([...links, { type: "LinkedIn", url: "" }]);
     };
-    // Handle file selection
+    // Handle file selection for photo
     const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
