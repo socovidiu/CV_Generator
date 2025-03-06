@@ -3,9 +3,14 @@ import { useForm } from "react-hook-form";
 import { CVData } from "../types/CVtype";
 import ContactInfo from "../components/ContactInfo"; 
 import Summary from "../components/Summary"; 
-
+import WorkExperience from "../components/WorkExperience"; 
+import Education from "../components/Education"; 
+import Skills from "../components/Skills"; 
 import ResumePreview from "../components/ResumePreview"; 
+import StepProgressBar from "../components/StepProgressBar";
 
+
+Education
 
 type TemplateTypes = "default" | "modern" | "dark";
 
@@ -15,10 +20,10 @@ const templates: Record<TemplateTypes, string> = {
     dark: "bg-gray-900 text-white p-6 rounded-lg shadow-lg"
 };
 
-const steps = ["ContactInfo", "Summary"];
+const steps = ["Contact Info", "Summary", "Work Experience", "Education", "Skills"];
 
 const CvManager: React.FC = () => {
-    const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<CVData>();
+    const { register, handleSubmit, setValue, watch, reset, formState: { errors }, control  } = useForm<CVData>();
     
     const [editingId, setEditingId] = useState<string | null>(null);
     const [selectedTemplate, setSelectedTemplate] = useState<TemplateTypes>("default");
@@ -73,11 +78,10 @@ const CvManager: React.FC = () => {
     return (
         <div className="min-h-full flex">
             {/* Left Section - Contact Form */}
-            <div className="w-2/5 p-8 bg-gray-100 flex flex-col ">
-                <div className="text-center mb-4 ">
-                    Step {currentStep + 1} of {steps.length}
-                </div>
-                {/* Contact data step */}
+            <div className="w-1/2 p-8 bg-gray-100 flex flex-col ">
+                {/* Progress bar */}
+                <StepProgressBar steps={steps} currentStep={currentStep} />
+                {/* Show component based on the current step */}
                 {currentStep === 0 && (
                     <ContactInfo
                         register={register}
@@ -88,13 +92,40 @@ const CvManager: React.FC = () => {
                         setPhoto={setPhoto}
                     />
                 )}
-                {/* Summary step */}
                 {currentStep === 1 && (
                     <Summary
                         register={register}
                         errors={errors}
                         handleSubmit={handleSubmit}
                         onSubmit={onSubmit}
+                    />
+                )}
+                {currentStep === 2 && (
+                    <WorkExperience
+                        register={register}
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        control={control} // Required for useFieldArray
+                    />
+                )}
+                {currentStep === 3 && (
+                    <Education
+                        register={register}
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        control={control} // Required for useFieldArray
+                    />
+                )}
+                {currentStep === 4 && (
+                    <Skills
+                        register={register}
+                        errors={errors}
+                        handleSubmit={handleSubmit}
+                        onSubmit={onSubmit}
+                        watch={watch}
+                        setValue={setValue}
                     />
                 )}
 
@@ -112,17 +143,19 @@ const CvManager: React.FC = () => {
                         type="button"
                         onClick={() => {
                             handleSubmit((data) => {
-                                console.log("Current Step Data Validated:", data);
-                                setCurrentStep(Math.min(steps.length - 1, currentStep + 1)); // Move forward only if valid
+                                if (currentStep === steps.length - 1) {
+                                    // Final submit
+                                    onSubmit(data);
+                                } else {
+                                    // Move to next step
+                                    setCurrentStep(currentStep + 1);
+                                }
                             })();
                         }}
                         className="px-6 py-2 rounded-md shadow-md transition text-white"
-                        style={{
-                            backgroundColor: "#f97316",
-                            cursor: "pointer"
-                        }}
+                        style={{ backgroundColor: "#f97316" }}
                     >
-                        CONTINUE
+                        {currentStep === steps.length - 1 ? "FINISH" : "CONTINUE"}
                     </button>
                 </div>
 
@@ -140,7 +173,7 @@ const CvManager: React.FC = () => {
             </div>
         
             {/* Right Section - CV Preview */}
-            <div className="w-3/5 p-8 bg-gray-500 text-white flex flex-col items-center">
+            <div className="w-1/2 p-8 bg-gray-500 text-white flex flex-col items-center">
                 <h2 className="text-xl font-bold mb-4">Live Preview</h2>
                 <div className="min-h-auto w-full flex justify-center items-center">
                     <ResumePreview resumeData={resumeData}/>

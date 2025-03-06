@@ -2,17 +2,6 @@ export interface LinkItem {
     type: "LinkedIn" | "GitHub" | "Website";
     url: string;
 }
-// export interface ContactData {
-//     firstName: string;
-//     lastName: string;
-//     city: string;
-//     county: string;
-//     postcode: string;
-//     phone: string;
-//     email: string;
-//     photo: string;
-//     links: LinkItem[];
-// }
 
 export interface CVData {
     firstName: string;
