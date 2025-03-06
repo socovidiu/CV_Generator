@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UseFormRegister, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
-import { ContactData } from "../types/CVtype";
+import { ContactData, LinkItem } from "../types/CVtype";
 
 interface ContactInfoProps {
     register: UseFormRegister<ContactData>;
@@ -11,9 +11,24 @@ interface ContactInfoProps {
     setPhoto: (photo: string | null) => void; 
 }
 
+
+
 const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmit, onSubmit, photo, setPhoto }) => {
 
+    // Add links for the contact
+    const [links, setLinks] = useState<LinkItem[]>([
+        { type: "LinkedIn", url: "" }
+    ]);
 
+    const handleLinkChange = (index: number, field: keyof LinkItem, value: string) => {
+        const updatedLinks = [...links];
+        updatedLinks[index][field] = value as any;
+        setLinks(updatedLinks);
+    };
+    
+    const addNewLink = () => {
+        setLinks([...links, { type: "LinkedIn", url: "" }]);
+    };
     // Handle file selection
     const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -113,22 +128,8 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     {errors.postcode && <p className="text-red-500 text-xs">{errors.postcode.message}</p>}
                 </div>
 
-                {/* Email */}
-                <div>
-                    <label className="block text-xs font-semibold">EMAIL</label>
-                    <input 
-                        {...register("email", { 
-                            required: "Email is required", 
-                            pattern: { value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Invalid email format" } 
-                        })} 
-                        className="w-full border rounded-md p-2"
-                        placeholder="Email"
-                    />
-                    {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
-                </div>
-
                 {/* Phone */}
-                <div className="col-span-2">
+                <div>
                     <label className="block text-xs font-semibold">PHONE</label>
                     <input 
                         {...register("phone", { 
@@ -140,8 +141,60 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     />
                     {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
                 </div>
-            </div>
 
+                {/* Email */}
+                <div className="col-span-2">
+                    <label className="block text-xs font-semibold">EMAIL</label>
+                    
+                    <input 
+                        {...register("email", { 
+                            required: "Email is required", 
+                            pattern: { value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Invalid email format" } 
+                        })} 
+                        className="w-full border rounded-md p-2"
+                        placeholder="Email"
+                    />
+                    {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
+                </div>
+
+                 {/* Links */}
+                 <div className="col-span-2 space-y-4">
+                    <label className="block text-xs font-semibold">LINKS</label>
+                    
+                    {links.map((link, index) => (
+                        <div key={index} className="flex gap-2">
+                            {/* Dropdown to select link type */}
+                            <select
+                                value={link.type}
+                                onChange={(e) => handleLinkChange(index, "type", e.target.value)}
+                                className="w-1/3 border rounded-md p-2"
+                            >
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="GitHub">GitHub</option>
+                                <option value="Website">Website</option>
+                            </select>
+
+                            {/* Input to enter actual link */}
+                            <input
+                                type="url"
+                                placeholder="https://..."
+                                value={link.url}
+                                onChange={(e) => handleLinkChange(index, "url", e.target.value)}
+                                className="w-2/3 border rounded-md p-2"
+                            />
+                        </div>
+                    ))}
+
+                    {/* Button to add new link */}
+                    <button
+                        type="button"
+                        onClick={addNewLink}
+                        className="mt-2 text-blue-500 hover:underline text-sm"
+                    >
+                        + Add another link
+                    </button>
+                </div> 
+            </div>
             
         </form>
     );

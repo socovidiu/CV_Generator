@@ -20,7 +20,7 @@ const CvManager: React.FC = () => {
 
 
     const borderStyle: "square" | "circle" | "rounded" = "rounded";
-
+    // Example
     const resumeData = {
         firstName: "John",
         lastName: "Doe",

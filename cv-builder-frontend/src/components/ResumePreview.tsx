@@ -134,7 +134,7 @@ const PersonalInfoHeader = ({ resumeData }: { resumeData: ResumeValues }) => {
 const SummarySection = ({ resumeData }: { resumeData: ResumeValues }) => {
     if (!resumeData.summary) return null;
     return (
-        <Section title="Professional Profile" color={resumeData.colorHex}>
+        <Section title="ABOUT ME" color={resumeData.colorHex}>
             <p className="whitespace-pre-line text-sm">{resumeData.summary}</p>
         </Section>
     );
@@ -213,7 +213,7 @@ const SkillsSection = ({ resumeData }: { resumeData: ResumeValues }) => {
 const Section = ({ title, children, color }: { title: string; children: React.ReactNode; color?: string }) => (
     <div className="space-y-3">
         <hr className="border-2" style={{ borderColor: color }} />
-        <p className="text-lg font-semibold" style={{ color }}>
+        <p className="text-lg text-left font-semibold" style={{ color }}>
             {title}
         </p>
         {children}

@@ -1,3 +1,7 @@
+export interface LinkItem {
+    type: "LinkedIn" | "GitHub" | "Website";
+    url: string;
+}
 export interface ContactData {
     firstName: string;
     lastName: string;
@@ -7,6 +11,7 @@ export interface ContactData {
     phone: string;
     email: string;
     photo: string;
+    links: LinkItem[];
 }
 
 export interface CV {
