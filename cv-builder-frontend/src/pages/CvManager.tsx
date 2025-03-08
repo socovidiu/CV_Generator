@@ -21,6 +21,40 @@ const templates: Record<TemplateTypes, string> = {
     dark: "bg-gray-900 text-white p-6 rounded-lg shadow-lg"
 };
 
+const borderStyle: "square" | "circle" | "rounded" = "rounded";
+
+// Example
+const resumeData = {
+    firstName: "John",
+    lastName: "Doe",
+    jobTitle: "Software Engineer",
+    city: "Bucharest",
+    country: "Romania",
+    phone: "123-456-789",
+    email: "john.doe@example.com",
+    photo: null, // This can be a base64 string, file object, or null if no photo is uploaded.
+    colorHex: "#3b82f6", // Default color theme for the CV (blue here)
+    borderStyle: borderStyle,  // ✅ This is correct
+    summary: "Experienced software engineer with expertise in building scalable web applications.",
+    workExperiences: [
+        {
+            position: "Frontend Developer",
+            company: "TechCorp",
+            startDate: "2022-01-01",
+            endDate: "2024-01-01",
+            description: "Built and maintained the company's front-end platform using React and Tailwind CSS."
+        }
+    ],
+    educations: [
+        {
+            degree: "Bachelor of Computer Science",
+            school: "University of Bucharest",
+            startDate: "2018-09-01",
+            endDate: "2022-06-15"
+        }
+    ],
+    skills: ["React", "TypeScript", "Tailwind CSS", "Git"]
+};
 const steps = ["Contact Info", "Summary", "Work Experience", "Education", "Skills"];
 
 const CvManager: React.FC = () => {
@@ -31,42 +65,6 @@ const CvManager: React.FC = () => {
     const [photo, setPhoto] = useState<string | null>(null);
     // Step state to track which section is active
     const [currentStep, setCurrentStep] = useState(0);
-
-
-    const borderStyle: "square" | "circle" | "rounded" = "rounded";
-    // Example
-    const resumeData = {
-        firstName: "John",
-        lastName: "Doe",
-        jobTitle: "Software Engineer",
-        city: "Bucharest",
-        country: "Romania",
-        phone: "123-456-789",
-        email: "john.doe@example.com",
-        photo: null, // This can be a base64 string, file object, or null if no photo is uploaded.
-        colorHex: "#3b82f6", // Default color theme for the CV (blue here)
-        borderStyle: borderStyle,  // ✅ This is correct
-        summary: "Experienced software engineer with expertise in building scalable web applications.",
-        workExperiences: [
-            {
-                position: "Frontend Developer",
-                company: "TechCorp",
-                startDate: "2022-01-01",
-                endDate: "2024-01-01",
-                description: "Built and maintained the company's front-end platform using React and Tailwind CSS."
-            }
-        ],
-        educations: [
-            {
-                degree: "Bachelor of Computer Science",
-                school: "University of Bucharest",
-                startDate: "2018-09-01",
-                endDate: "2022-06-15"
-            }
-        ],
-        skills: ["React", "TypeScript", "Tailwind CSS", "Git"]
-    };
-
 
     // Watch form values for live preview
     const formValues = watch();
@@ -175,10 +173,10 @@ const CvManager: React.FC = () => {
             </div>
         
             {/* Right Section - CV Preview */}
-            <div className="w-1/2 h-full p-8 bg-gray-700 flex flex-col justify-center items-center">
-                <h2 className="text-xl font-bold mb-4 text-white">Live Preview</h2>
+            <div className="w-1/2 min-h-full p-8 bg-gray-700 flex flex-col justify-center items-center">
+                <h2 className="text-xl font-bold mb-4 text-blue-400">Live Preview</h2>
                 <div className="min-h-auto w-full justify-center items-center">
-                    <ResumePreview resumeData={resumeData}/>
+                    <ResumePreview resumeData={formValues}/>
                 </div>
             </div>
         </div>

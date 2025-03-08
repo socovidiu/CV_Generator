@@ -109,11 +109,11 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                 <div>
                     <label className="block text-xs font-semibold">COUNTY</label>
                     <input 
-                        {...register("county", { required: "County is required" })} 
+                        {...register("country", { required: "County is required" })} 
                         className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="County"
                     />
-                    {errors.county && <p className="text-red-500 text-xs">{errors.county.message}</p>}
+                    {errors.country && <p className="text-red-500 text-xs">{errors.country.message}</p>}
                 </div>
 
                 {/* Postcode */}

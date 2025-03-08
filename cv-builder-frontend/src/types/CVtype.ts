@@ -7,12 +7,12 @@ export interface CVData {
     firstName: string;
     lastName: string;
     city: string;
-    county: string;
+    country: string;
     postcode: string;
     phone: string;
     email: string;
     photo: string | null;
-
+    jobTitle: string;
     summary: string;
     skills: string[];
 

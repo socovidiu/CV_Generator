@@ -17,6 +17,16 @@ const Summary: React.FC<SummaryProps> = ({ register, errors, handleSubmit, onSub
         >
             <h2 className="text-2xlfont-bold mb-4">Professional Summary</h2>
 
+            {/* Job tytle */}
+            <div className="w-full">
+                <label className="block text-xs  text-left  font-semibold">Job Tytle</label>
+                <textarea
+                    {...register("jobTitle", { required: "Job tytle is required" })}
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                    placeholder="Software Developer"
+                />
+                {errors.summary && <p className="text-red-500 text-xs">{errors.summary.message}</p>}
+            </div>
             {/* Summary Textarea */}
             <div className="w-full">
                 <label className="block text-xs  text-left  font-semibold">About me</label>
