@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UseFormRegister, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
-import { CVData, LinkItem} from "../types/CVtype";
+import { CVData, LinkItem} from "../../types/CVtype";
 
 interface ContactInfoProps {
     register: UseFormRegister<CVData>;
@@ -41,7 +41,9 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md w-full">
+        <form 
+            onSubmit={handleSubmit(onSubmit)} 
+            className="flex flex-col items-center bg-gray-100 text-black p-6 rounded-lg shadow-md w-full">
             <h2 className="text-2xl font-bold mb-4">Contact Info</h2>
 
             {/* Photo Upload Section */}
@@ -75,7 +77,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     <label className="block text-xs font-semibold">FIRST NAME</label>
                     <input 
                         {...register("firstName", { required: "First name is required" })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="First Name"
                     />
                     {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName.message}</p>}
@@ -86,7 +88,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     <label className="block text-xs font-semibold">LAST NAME</label>
                     <input 
                         {...register("lastName", { required: "Last name is required" })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="Last Name"
                     />
                     {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName.message}</p>}
@@ -97,7 +99,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     <label className="block text-xs font-semibold">CITY</label>
                     <input 
                         {...register("city", { required: "City is required" })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="City"
                     />
                     {errors.city && <p className="text-red-500 text-xs">{errors.city.message}</p>}
@@ -108,7 +110,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                     <label className="block text-xs font-semibold">COUNTY</label>
                     <input 
                         {...register("county", { required: "County is required" })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="County"
                     />
                     {errors.county && <p className="text-red-500 text-xs">{errors.county.message}</p>}
@@ -122,7 +124,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                             required: "Postcode is required", 
                             pattern: { value: /^[A-Za-z0-9 ]{3,10}$/, message: "Invalid postcode format" } 
                         })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="Postcode"
                     />
                     {errors.postcode && <p className="text-red-500 text-xs">{errors.postcode.message}</p>}
@@ -136,7 +138,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                             required: "Phone number is required", 
                             pattern: { value: /^[0-9]{10,15}$/, message: "Invalid phone number" } 
                         })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="Phone"
                     />
                     {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
@@ -151,7 +153,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ register, errors, handleSubmi
                             required: "Email is required", 
                             pattern: { value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Invalid email format" } 
                         })} 
-                        className="w-full border rounded-md p-2"
+                        className="w-full p-3 border border-gray-300 rounded-lg"
                         placeholder="Email"
                     />
                     {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}

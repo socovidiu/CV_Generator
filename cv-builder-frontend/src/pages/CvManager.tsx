@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CVData } from "../types/CVtype";
-import ContactInfo from "../components/ContactInfo"; 
-import Summary from "../components/Summary"; 
-import WorkExperience from "../components/WorkExperience"; 
-import Education from "../components/Education"; 
-import Skills from "../components/Skills"; 
-import ResumePreview from "../components/ResumePreview"; 
-import StepProgressBar from "../components/StepProgressBar";
+import ContactInfo from "../components/ui-resumebuilder/ContactInfo"; 
+import Summary from "../components/ui-resumebuilder/Summary"; 
+import WorkExperience from "../components/ui-resumebuilder/WorkExperience"; 
+import Education from "../components/ui-resumebuilder/Education"; 
+import Skills from "../components/ui-resumebuilder/Skills"; 
+import ResumePreview from "../components/ui-resumebuilder/ResumePreview"; 
+import StepProgressBar from "../components/ui-resumebuilder/StepProgressBar";
+import Button from "../components/ui-elements/Button"
 
 
 Education
@@ -76,9 +77,9 @@ const CvManager: React.FC = () => {
     };
 
     return (
-        <div className="min-h-full flex">
+        <div className="flex w-full min-h-screen">
             {/* Left Section - Contact Form */}
-            <div className="w-1/2 p-8 bg-gray-100 flex flex-col ">
+            <div className="w-1/2 p-8 bg-white flex flex-col justify-center ">
                 {/* Progress bar */}
                 <StepProgressBar steps={steps} currentStep={currentStep} />
                 {/* Show component based on the current step */}
@@ -131,15 +132,16 @@ const CvManager: React.FC = () => {
 
                 {/* Navigation and Submit Section */}
                 <div className="flex justify-between mt-4">
-                    <button 
+                    <Button
                         type="button"
                         onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                        className="px-8 py-3 border border-black text-black font-bold text-lg"
+                        variant="secondary"
+                        size="lg"
                     >
                         BACK
-                    </button>
-                    
-                    <button 
+                    </Button> 
+
+                    <Button
                         type="button"
                         onClick={() => {
                             handleSubmit((data) => {
@@ -152,11 +154,11 @@ const CvManager: React.FC = () => {
                                 }
                             })();
                         }}
-                        className="px-6 py-2 rounded-md shadow-md transition text-white"
-                        style={{ backgroundColor: "#f97316" }}
+                        variant="navigation"
+                        size="lg"
                     >
                         {currentStep === steps.length - 1 ? "FINISH" : "CONTINUE"}
-                    </button>
+                    </Button>
                 </div>
 
                 {/* Template Selector */}
@@ -173,9 +175,9 @@ const CvManager: React.FC = () => {
             </div>
         
             {/* Right Section - CV Preview */}
-            <div className="w-1/2 p-8 bg-gray-500 text-white flex flex-col items-center">
-                <h2 className="text-xl font-bold mb-4">Live Preview</h2>
-                <div className="min-h-auto w-full flex justify-center items-center">
+            <div className="w-1/2 h-full p-8 bg-gray-700 flex flex-col justify-center items-center">
+                <h2 className="text-xl font-bold mb-4 text-white">Live Preview</h2>
+                <div className="min-h-auto w-full justify-center items-center">
                     <ResumePreview resumeData={resumeData}/>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UseFormRegister, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
-import { CVData } from "../types/CVtype";
+import { CVData } from "../../types/CVtype";
 
 interface SkillsProps {
     register: UseFormRegister<CVData>;
@@ -30,7 +30,10 @@ const Skills: React.FC<SkillsProps> = ({ register, errors, handleSubmit, onSubmi
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col bg-gray-100 p-6 rounded-lg shadow-md w-full">
+        <form 
+            onSubmit={handleSubmit(onSubmit)} 
+            className="flex flex-col bg-gray-100 text-black p-6 rounded-lg shadow-md w-full"
+        >
             <h2 className="text-2xl font-bold mb-4">Skills</h2>
 
             {/* Input to add new skill */}

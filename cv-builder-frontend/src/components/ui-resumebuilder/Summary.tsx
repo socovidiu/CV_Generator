@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormRegister, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
-import { CVData } from "../types/CVtype";
+import { CVData } from "../../types/CVtype";
 
 interface SummaryProps {
     register: UseFormRegister<CVData>;
@@ -13,7 +13,7 @@ const Summary: React.FC<SummaryProps> = ({ register, errors, handleSubmit, onSub
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md w-full"
+            className="flex flex-col items-center bg-gray-100 text-black p-6 rounded-lg shadow-md w-full"
         >
             <h2 className="text-2xlfont-bold mb-4">Professional Summary</h2>
 

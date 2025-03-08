@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Button from "../components/ui-elements/Button"
 
 const Home: React.FC = () => {
     return (
@@ -19,14 +20,10 @@ const Home: React.FC = () => {
 
             <div className="mt-8 flex justify-between w-full max-w-screen-lg px-8">
                 <a href="/cvs">
-                    <button >
-                    Manage CVs
-                    </button>
+                    <Button>Manage CVs</Button>
                 </a>
                 <a href="/about">
-                    <button>
-                    Learn More
-                    </button>
+                    <Button>Learn More</Button> 
                 </a>
             </div>
 
