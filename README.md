@@ -24,3 +24,9 @@ This project consists of a .NET Core Web API backend and a React frontend client
 2. Open in Visual Studio or run via CLI:
    ```bash
    dotnet run
+   ```
+3. Run the App
+   ```bash
+   npm start
+   ```
+   This will start the app at http://localhost:3000.
