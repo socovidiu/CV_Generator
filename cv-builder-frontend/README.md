@@ -1,50 +1,55 @@
-# React + TypeScript + Vite
+# CV Builder Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for the CV Generator project. Built with **React**, it provides a user-friendly interface to create, preview, and export professional resumes as PDFs.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📝 Dynamic form inputs for CV sections (personal info, education, experience, skills)
+- 🔍 Live resume preview as you type
+- 📄 Export the resume to PDF
+- 🎨 Clean and responsive UI
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. Install Dependencies
 
-- Configure the top-level `parserOptions` property like this:
+Navigate into the frontend folder and install the required packages:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+cd cv-builder-frontend
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Run the App
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm start
 ```
+
+This will start the app at http://localhost:3000.
+
+### Project structure
+
+```
+cv-builder-frontend/
+│
+├── public/               # Static assets
+├── src/
+│   ├── api/               # API utility functions
+│   ├── assets/            # Images and static resources
+│   ├── components/        # Reusable components (e.g., InputField, ResumePreview)
+│   ├── pages/             # Pages like CV builder
+│   ├── types/             # TypeScript interfaces and types
+│   ├── App.tsx            # Main App component
+│   ├── main.tsx           # Entry point for the React app
+│   ├── App.css            # App-wide styles
+│   └── index.css          # Tailwind and base styles
+│
+├── package.json
+└── README.md
+```
+
+### 🛠️ Technologies Used
+- React + Vite – UI library
+- JavaScript/TypeScript – App logic
+= TailwindCSS – Styling
