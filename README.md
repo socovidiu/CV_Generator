@@ -30,3 +30,4 @@ This project consists of a .NET Core Web API backend and a React frontend client
    npm start
    ```
    This will start the app at http://localhost:3000.
+
